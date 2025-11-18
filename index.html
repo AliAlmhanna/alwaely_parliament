@@ -35,7 +35,6 @@
             direction: rtl;
         }
 
-        /* شاشة التسجيل */
         .login-container {
             display: flex;
             justify-content: center;
@@ -168,7 +167,6 @@
             opacity: 0.7;
         }
 
-        /* المحتوى الرئيسي (يظهر بعد التسجيل) */
         .main-content {
             display: none;
         }
@@ -179,7 +177,6 @@
             padding: 0 20px;
         }
 
-        /* المحتوى الرئيسي */
         .content {
             padding: 30px 0 40px;
             min-height: calc(100vh - 80px);
@@ -274,7 +271,6 @@
             transform: translateY(-1px);
         }
 
-        /* أزرار الإدارة */
         .admin-buttons {
             display: flex;
             gap: 10px;
@@ -360,7 +356,6 @@
             color: var(--primary);
         }
 
-        /* قسم التبليغات */
         .announcements {
             display: flex;
             flex-direction: column;
@@ -421,7 +416,6 @@
             padding-top: 8px;
         }
 
-        /* زر حذف التبليغ */
         .delete-announcement-icon {
             position: absolute;
             top: 12px;
@@ -449,7 +443,6 @@
             transform: scale(1.1);
         }
 
-        /* قسم المناصب */
         .positions {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -516,7 +509,6 @@
             color: var(--text);
         }
 
-        /* قسم التواصل */
         .contact-info {
             display: flex;
             flex-direction: column;
@@ -571,7 +563,6 @@
             color: var(--secondary);
         }
 
-        /* صورة البرلمان */
         .parliament-image {
             width: 100%;
             max-width: 400px;
@@ -625,7 +616,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        /* نوافذ الإدارة */
         .modal {
             display: none;
             position: fixed;
@@ -700,7 +690,6 @@
             transform: translateY(-2px);
         }
 
-        /* قسم إدارة المستخدمين */
         .users-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -754,7 +743,6 @@
             height: 16px;
         }
 
-        /* تأثيرات الهاتف */
         @media (max-width: 768px) {
             .login-options {
                 flex-direction: column;
@@ -819,7 +807,6 @@
             }
         }
 
-        /* تذييل الصفحة */
         .footer {
             background: var(--primary);
             padding: 25px 0;
@@ -839,14 +826,6 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* مؤشر التحميل */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: var(--primary);
-        }
-
         .sync-status {
             position: fixed;
             top: 10px;
@@ -857,16 +836,22 @@
             border-radius: 15px;
             font-size: 12px;
             z-index: 1000;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--primary);
         }
     </style>
 </head>
 <body>
-    <!-- مؤشر المزامنة -->
-    <div class="sync-status" id="syncStatus" style="display: none;">
-        <i class="fas fa-sync"></i> جاري المزامنة...
+    <div class="sync-status" id="syncStatus">
+        <i class="fas fa-sync fa-spin"></i> جاري المزامنة...
     </div>
 
-    <!-- شاشة التسجيل -->
     <div class="login-container" id="loginContainer">
         <div class="login-box">
             <h1 class="login-title">البرلمان الطلابي</h1>
@@ -939,30 +924,24 @@
         </div>
     </div>
 
-    <!-- المحتوى الرئيسي -->
     <div class="main-content" id="mainContent">
-        <!-- المحتوى -->
         <div class="content">
             <div class="container">
-                <!-- قسم الترحيب -->
                 <section class="hero">
                     <h1 class="hero-title" id="mainTitle">البرلمان الطلابي</h1>
                     <p class="welcome-message" id="welcomeMessage">مرحباً بك في منصة البرلمان الطلابي</p>
                     <p class="hero-subtitle">ثانوية الوائلي للمتميزين - صوت الطلاب وقرارهم، منصة تمثيلية تعبر عن طموحات الطلاب وتعمل على تطوير البيئة التعليمية والأنشطة الطلابية.</p>
                     
-                    <!-- صورة البرلمان -->
                     <div class="parliament-image">
                         🏛️ البرلمان الطلابي 🎓
                     </div>
 
-                    <!-- تاريخ التأسيس -->
                     <div class="founding-date">
                         <div class="founding-text">تأسس البرلمان الطلابي سنة</div>
                         <div class="founding-year">٢٠٢٥</div>
                     </div>
                 </section>
 
-                <!-- قسم التبليغات -->
                 <section id="announcements" class="section">
                     <div class="user-controls">
                         <div class="user-info">
@@ -985,22 +964,18 @@
                         <h2 class="section-title">التبليغات والإعلانات</h2>
                     </div>
                     <div class="announcements" id="announcementsContainer">
-                        <!-- التبليغات ستضاف هنا ديناميكياً -->
                     </div>
                 </section>
 
-                <!-- قسم المناصب -->
                 <section id="positions" class="section">
                     <div class="section-header">
                         <i class="fas fa-users"></i>
                         <h2 class="section-title">هيكل البرلمان والمناصب</h2>
                     </div>
                     <div class="positions" id="positionsContainer">
-                        <!-- المناصب ستضاف هنا ديناميكياً -->
                     </div>
                 </section>
 
-                <!-- قسم التواصل -->
                 <section id="contact" class="section">
                     <div class="section-header">
                         <i class="fas fa-address-book"></i>
@@ -1042,7 +1017,6 @@
                     </div>
                 </section>
 
-                <!-- قسم الإدارة (للمسؤول فقط) -->
                 <section id="adminSection" class="section" style="display: none;">
                     <div class="section-header">
                         <i class="fas fa-cogs"></i>
@@ -1063,7 +1037,6 @@
                     </div>
                 </section>
 
-                <!-- قسم عن البرلمان -->
                 <section id="about" class="section">
                     <div class="section-header">
                         <i class="fas fa-info-circle"></i>
@@ -1076,7 +1049,6 @@
             </div>
         </div>
 
-        <!-- التذييل -->
         <footer class="footer">
             <div class="container">
                 <div class="footer-content">
@@ -1088,7 +1060,6 @@
         </footer>
     </div>
 
-    <!-- نوافذ الإدارة -->
     <div class="modal" id="createUserModal">
         <div class="modal-content">
             <h3 class="modal-title">إنشاء حساب جديد</h3>
@@ -1129,12 +1100,10 @@
         </div>
     </div>
 
-    <!-- نافذة إدارة المستخدمين -->
     <div class="modal" id="manageUsersModal">
         <div class="modal-content">
             <h3 class="modal-title">إدارة المستخدمين</h3>
             <div class="users-list" id="usersListContainer">
-                <!-- المستخدمين سيضافون هنا ديناميكياً -->
             </div>
             <div class="form-buttons">
                 <button class="btn-secondary" onclick="closeModal('manageUsersModal')">إغلاق</button>
@@ -1142,7 +1111,6 @@
         </div>
     </div>
 
-    <!-- نافذة نشر تبليغ -->
     <div class="modal" id="addAnnouncementModal">
         <div class="modal-content">
             <h3 class="modal-title">نشر تبليغ جديد</h3>
@@ -1174,7 +1142,7 @@
         const GITHUB_CONFIG = {
             owner: 'ALI-ALMHANNA',
             repo: 'alwaely_parliament',
-            token: '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',
+            token: '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',
             dataFile: 'data.json'
         };
 
@@ -1184,7 +1152,6 @@
         let parliamentUsers = [];
         let adminUsers = [{ username: "AliAlmhanna", password: "24012012Ali" }];
         
-        // بيانات المناصب
         const positions = [
             {
                 name: "رئيس مجلس البرلمان",
@@ -1212,7 +1179,6 @@
             }
         ];
 
-        // فئة GitHubDB للتعامل مع التخزين السحابي
         class GitHubDB {
             constructor(config) {
                 this.config = config;
@@ -1222,6 +1188,12 @@
             async getData() {
                 try {
                     console.log('جاري جلب البيانات من GitHub...');
+                    
+                    if (!this.config.token) {
+                        console.log('لا يوجد توكن، استخدام التخزين المحلي');
+                        return this.getLocalData();
+                    }
+
                     const response = await fetch(
                         `${this.baseURL}/${this.config.owner}/${this.config.repo}/contents/${this.config.dataFile}`,
                         {
@@ -1233,41 +1205,34 @@
                     );
                     
                     if (response.status === 404) {
-                        console.log('ملف البيانات غير موجود في GitHub، سيتم إنشاؤه عند أول حفظ');
+                        console.log('ملف البيانات غير موجود، سيتم إنشاؤه');
                         return { announcements: [], users: [] };
                     }
                     
                     if (!response.ok) {
-                        throw new Error(`خطأ في جلب البيانات: ${response.status}`);
+                        throw new Error(`خطأ HTTP: ${response.status}`);
                     }
                     
                     const data = await response.json();
                     const content = JSON.parse(atob(data.content));
-                    console.log('تم جلب البيانات بنجاح من GitHub:', content);
+                    console.log('تم جلب البيانات:', content);
                     return content;
+                    
                 } catch (error) {
-                    console.error('خطأ في جلب البيانات من GitHub:', error);
-                    // استعادة البيانات من localStorage كنسخة احتياطية
-                    const localData = {
-                        announcements: JSON.parse(localStorage.getItem('announcements')) || [],
-                        users: JSON.parse(localStorage.getItem('parliamentUsers')) || []
-                    };
-                    return localData;
+                    console.error('خطأ في جلب البيانات:', error);
+                    return this.getLocalData();
                 }
             }
 
             async saveData(newData) {
-                // إظهار مؤشر المزامنة
                 this.showSyncStatus();
                 
-                // حفظ محلي أولاً للتأكد من وجود نسخة احتياطية
                 localStorage.setItem('announcements', JSON.stringify(newData.announcements || []));
                 localStorage.setItem('parliamentUsers', JSON.stringify(newData.users || []));
 
                 try {
-                    console.log('جاري حفظ البيانات في GitHub...', newData);
+                    console.log('جاري الحفظ في GitHub...', newData);
                     
-                    // أولاً نحاول جلب الملف الحالي لنعرف الـ SHA
                     let sha = null;
                     try {
                         const currentResponse = await fetch(
@@ -1297,25 +1262,33 @@
                                 'Accept': 'application/vnd.github.v3+json'
                             },
                             body: JSON.stringify({
-                                message: 'تحديث بيانات البرلمان الطلابي',
-                                content: btoa(JSON.stringify(newData)),
+                                message: `تحديث بيانات البرلمان - ${new Date().toLocaleString('ar-SA')}`,
+                                content: btoa(JSON.stringify(newData, null, 2)),
                                 sha: sha
                             })
                         }
                     );
 
                     if (response.ok) {
-                        console.log('تم حفظ البيانات بنجاح في GitHub');
+                        console.log('تم الحفظ في GitHub بنجاح!');
                         this.hideSyncStatus();
                         return true;
                     } else {
                         throw new Error(`خطأ في الحفظ: ${response.status}`);
                     }
+                    
                 } catch (error) {
-                    console.error('خطأ في حفظ البيانات في GitHub:', error);
+                    console.error('خطأ في حفظ البيانات:', error);
                     this.hideSyncStatus();
                     return false;
                 }
+            }
+
+            getLocalData() {
+                return {
+                    announcements: JSON.parse(localStorage.getItem('announcements')) || [],
+                    users: JSON.parse(localStorage.getItem('parliamentUsers')) || []
+                };
             }
 
             showSyncStatus() {
@@ -1337,7 +1310,6 @@
             }
         }
 
-        // تهيئة النظام
         async function initializeSystem() {
             document.getElementById('loading').style.display = 'block';
             
@@ -1352,7 +1324,6 @@
             document.getElementById('loading').style.display = 'none';
         }
 
-        // تحديد نوع التسجيل
         function selectLoginType(type) {
             document.querySelectorAll('.login-option').forEach(option => {
                 option.classList.remove('active');
@@ -1364,13 +1335,11 @@
             document.getElementById('parliamentLogin').style.display = type === 'parliament' ? 'block' : 'none';
         }
 
-        // تسجيل الدخول كطالب
         function loginAsStudent() {
             currentUser = { username: 'طالب', role: 'student' };
             showMainContent();
         }
 
-        // تسجيل الدخول كمسؤول
         function loginAsAdmin() {
             const username = document.getElementById('adminUsername').value;
             const password = document.getElementById('adminPassword').value;
@@ -1384,7 +1353,6 @@
             }
         }
 
-        // تسجيل الدخول كبرلماني
         function loginAsParliament() {
             const username = document.getElementById('parliamentUsername').value;
             const password = document.getElementById('parliamentPassword').value;
@@ -1402,7 +1370,6 @@
             }
         }
 
-        // عرض المحتوى الرئيسي
         function showMainContent() {
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
@@ -1412,7 +1379,6 @@
                 currentUser.role === 'admin' ? 'مسؤول' : 
                 currentUser.role === 'parliament' ? 'برلماني' : 'طالب';
             
-            // إظهار أزرار المسؤول
             if (currentUser.role === 'admin') {
                 document.getElementById('announcementAdminButtons').style.display = 'flex';
                 document.getElementById('adminSection').style.display = 'block';
@@ -1421,13 +1387,11 @@
             }
         }
 
-        // تسجيل الخروج
         function logout() {
             currentUser = null;
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'flex';
             
-            // إعادة تعيين حقول التسجيل
             document.getElementById('adminUsername').value = '';
             document.getElementById('adminPassword').value = '';
             document.getElementById('parliamentUsername').value = '';
@@ -1436,7 +1400,6 @@
             document.getElementById('parliamentError').style.display = 'none';
         }
 
-        // عرض التبليغات
         function displayAnnouncements() {
             const container = document.getElementById('announcementsContainer');
             container.innerHTML = '';
@@ -1467,7 +1430,6 @@
             });
         }
 
-        // تحميل المناصب
         function loadPositions() {
             const container = document.getElementById('positionsContainer');
             container.innerHTML = '';
@@ -1489,7 +1451,6 @@
             });
         }
 
-        // نشر تبليغ جديد
         async function publishAnnouncement() {
             const title = document.getElementById('announcementTitle').value;
             const description = document.getElementById('announcementDescription').value;
@@ -1510,7 +1471,6 @@
 
             announcements.unshift(newAnnouncement);
             
-            // حفظ في GitHub
             const success = await githubDB.saveData({
                 announcements: announcements,
                 users: parliamentUsers
@@ -1520,13 +1480,11 @@
                 displayAnnouncements();
                 closeModal('addAnnouncementModal');
                 
-                // مسح الحقول
                 document.getElementById('announcementTitle').value = '';
                 document.getElementById('announcementDescription').value = '';
             }
         }
 
-        // حذف تبليغ
         async function deleteAnnouncement(index) {
             if (confirm('هل أنت متأكد من حذف هذا التبليغ؟')) {
                 announcements.splice(index, 1);
@@ -1538,7 +1496,6 @@
             }
         }
 
-        // إنشاء مستخدم جديد
         async function createUser() {
             const username = document.getElementById('newUsername').value;
             const password = document.getElementById('newPassword').value;
@@ -1571,7 +1528,6 @@
                 parliamentUsers.push(newUser);
             }
 
-            // حفظ في GitHub
             await githubDB.saveData({
                 announcements: announcements,
                 users: parliamentUsers
@@ -1580,13 +1536,11 @@
             closeModal('createUserModal');
             alert('تم إنشاء الحساب بنجاح!');
             
-            // مسح الحقول
             document.getElementById('newUsername').value = '';
             document.getElementById('newPassword').value = '';
             document.getElementById('confirmPassword').value = '';
         }
 
-        // إدارة المستخدمين
         function showManageUsersModal() {
             const container = document.getElementById('usersListContainer');
             container.innerHTML = '';
@@ -1616,7 +1570,6 @@
             document.getElementById('manageUsersModal').style.display = 'block';
         }
 
-        // تبديل نوع المستخدم
         function toggleUserType() {
             const userType = document.getElementById('userType').value;
             const permissionsSection = document.getElementById('permissionsSection');
@@ -1628,7 +1581,6 @@
             }
         }
 
-        // دوال النوافذ
         function showAddAnnouncementModal() {
             document.getElementById('addAnnouncementModal').style.display = 'block';
         }
@@ -1641,7 +1593,6 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // دوال مساعدة
         function getAudienceText(audience) {
             const audiences = {
                 'students': 'طلاب فقط',
@@ -1651,7 +1602,6 @@
             return audiences[audience] || audience;
         }
 
-        // تهيئة النظام عند تحميل الصفحة
         window.onload = initializeSystem;
     </script>
 </body>
