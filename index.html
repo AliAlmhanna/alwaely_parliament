@@ -839,56 +839,41 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* نافذة إعدادات GitHub */
-        .github-setup {
-            background: #f8f9fa;
-            border: 2px dashed #dee2e6;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+        /* مؤشر التحميل */
+        .loading {
+            display: none;
             text-align: center;
-        }
-
-        .github-setup h3 {
+            padding: 20px;
             color: var(--primary);
-            margin-bottom: 15px;
         }
 
-        .setup-steps {
-            text-align: right;
-            margin: 15px 0;
-        }
-
-        .setup-step {
-            margin-bottom: 10px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            border-right: 3px solid var(--secondary);
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
+    <!-- مؤشر المزامنة -->
+    <div class="sync-status" id="syncStatus" style="display: none;">
+        <i class="fas fa-sync"></i> جاري المزامنة...
+    </div>
+
     <!-- شاشة التسجيل -->
     <div class="login-container" id="loginContainer">
         <div class="login-box">
             <h1 class="login-title">البرلمان الطلابي</h1>
             <p class="login-subtitle">ثانوية الوائلي للمتميزين</p>
             
-            <!-- إعدادات GitHub -->
-            <div class="github-setup">
-                <h3><i class="fab fa-github"></i> إعداد التخزين السحابي</h3>
-                <div class="setup-steps">
-                    <div class="setup-step">1. أنشئ ملف data.json في مستودعك</div>
-                    <div class="setup-step">2. أنشئ GitHub Token مع صلاحيات repo</div>
-                    <div class="setup-step">3. الصق التوكن هنا:</div>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-input" id="githubToken" placeholder="أدخل GitHub Token هنا">
-                </div>
-                <button class="login-btn" onclick="setupGitHub()" style="background: #333;">
-                    <i class="fab fa-github"></i> تفعيل التخزين السحابي
-                </button>
+            <div class="loading" id="loading">
+                <i class="fas fa-sync fa-spin"></i> جاري تحميل البيانات...
             </div>
             
             <div class="login-options">
@@ -1071,9 +1056,6 @@
                         <button class="admin-btn" onclick="showManageUsersModal()">
                             <i class="fas fa-users-cog"></i> إدارة المستخدمين
                         </button>
-                        <button class="admin-btn" onclick="showGitHubConfig()">
-                            <i class="fab fa-github"></i> إعدادات GitHub
-                        </button>
                     </div>
 
                     <div class="section-content">
@@ -1187,33 +1169,13 @@
         </div>
     </div>
 
-    <!-- نافذة إعدادات GitHub -->
-    <div class="modal" id="githubConfigModal">
-        <div class="modal-content">
-            <h3 class="modal-title"><i class="fab fa-github"></i> إعدادات التخزين السحابي</h3>
-            <div class="form-group">
-                <label class="form-label">GitHub Token</label>
-                <input type="password" class="form-input" id="githubTokenConfig" placeholder="أدخل GitHub Token">
-                <small style="color: #666; display: block; margin-top: 5px;">سيتم حفظ التوكن محلياً في متصفحك فقط</small>
-            </div>
-            <div class="form-group">
-                <label class="form-label">اسم الملف في GitHub</label>
-                <input type="text" class="form-input" id="dataFileName" value="data.json" placeholder="اسم الملف (data.json)">
-            </div>
-            <div class="form-buttons">
-                <button class="btn-primary" onclick="saveGitHubConfig()">حفظ الإعدادات</button>
-                <button class="btn-secondary" onclick="closeModal('githubConfigModal')">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // إعدادات GitHub
+        // إعدادات GitHub مع التوكن المضمن
         const GITHUB_CONFIG = {
             owner: 'ALI-ALMHANNA',
             repo: 'alwaely_parliament',
-            token: localStorage.getItem('github_token') || '',
-            dataFile: localStorage.getItem('data_file') || 'data.json'
+            token: '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',
+            dataFile: 'data.json'
         };
 
         let githubDB = null;
@@ -1258,15 +1220,6 @@
             }
 
             async getData() {
-                if (!this.config.token) {
-                    console.log('لا يوجد GitHub Token، جاري استخدام التخزين المحلي');
-                    const localData = {
-                        announcements: JSON.parse(localStorage.getItem('announcements')) || [],
-                        users: JSON.parse(localStorage.getItem('parliamentUsers')) || []
-                    };
-                    return localData;
-                }
-
                 try {
                     console.log('جاري جلب البيانات من GitHub...');
                     const response = await fetch(
@@ -1304,14 +1257,12 @@
             }
 
             async saveData(newData) {
+                // إظهار مؤشر المزامنة
+                this.showSyncStatus();
+                
                 // حفظ محلي أولاً للتأكد من وجود نسخة احتياطية
                 localStorage.setItem('announcements', JSON.stringify(newData.announcements || []));
                 localStorage.setItem('parliamentUsers', JSON.stringify(newData.users || []));
-
-                if (!this.config.token) {
-                    console.log('لا يوجد GitHub Token، تم الحفظ محلياً فقط');
-                    return true;
-                }
 
                 try {
                     console.log('جاري حفظ البيانات في GitHub...', newData);
@@ -1355,20 +1306,41 @@
 
                     if (response.ok) {
                         console.log('تم حفظ البيانات بنجاح في GitHub');
+                        this.hideSyncStatus();
                         return true;
                     } else {
                         throw new Error(`خطأ في الحفظ: ${response.status}`);
                     }
                 } catch (error) {
                     console.error('خطأ في حفظ البيانات في GitHub:', error);
-                    alert('خطأ في حفظ البيانات في السحابة، تم الحفظ محلياً فقط');
+                    this.hideSyncStatus();
                     return false;
+                }
+            }
+
+            showSyncStatus() {
+                const statusElement = document.getElementById('syncStatus');
+                if (statusElement) {
+                    statusElement.style.display = 'block';
+                    statusElement.innerHTML = '<i class="fas fa-sync fa-spin"></i> جاري المزامنة...';
+                }
+            }
+
+            hideSyncStatus() {
+                const statusElement = document.getElementById('syncStatus');
+                if (statusElement) {
+                    statusElement.innerHTML = '<i class="fas fa-check"></i> تمت المزامنة';
+                    setTimeout(() => {
+                        statusElement.style.display = 'none';
+                    }, 2000);
                 }
             }
         }
 
         // تهيئة النظام
         async function initializeSystem() {
+            document.getElementById('loading').style.display = 'block';
+            
             githubDB = new GitHubDB(GITHUB_CONFIG);
             const data = await githubDB.getData();
             announcements = data.announcements || [];
@@ -1377,53 +1349,7 @@
             displayAnnouncements();
             loadPositions();
             
-            // تحديث حقل التوكن في واجهة المستخدم
-            if (document.getElementById('githubToken')) {
-                document.getElementById('githubToken').value = GITHUB_CONFIG.token;
-            }
-        }
-
-        // إعداد GitHub
-        function setupGitHub() {
-            const token = document.getElementById('githubToken').value;
-            if (!token) {
-                alert('يرجى إدخال GitHub Token');
-                return;
-            }
-            
-            GITHUB_CONFIG.token = token;
-            localStorage.setItem('github_token', token);
-            githubDB = new GitHubDB(GITHUB_CONFIG);
-            
-            alert('تم تفعيل التخزين السحابي بنجاح! سيتم الآن مزامنة البيانات مع GitHub.');
-            initializeSystem();
-        }
-
-        // إظهار إعدادات GitHub
-        function showGitHubConfig() {
-            document.getElementById('githubTokenConfig').value = GITHUB_CONFIG.token;
-            document.getElementById('dataFileName').value = GITHUB_CONFIG.dataFile;
-            document.getElementById('githubConfigModal').style.display = 'block';
-        }
-
-        // حفظ إعدادات GitHub
-        function saveGitHubConfig() {
-            const token = document.getElementById('githubTokenConfig').value;
-            const dataFile = document.getElementById('dataFileName').value;
-            
-            if (token) {
-                GITHUB_CONFIG.token = token;
-                localStorage.setItem('github_token', token);
-            }
-            
-            if (dataFile) {
-                GITHUB_CONFIG.dataFile = dataFile;
-                localStorage.setItem('data_file', dataFile);
-            }
-            
-            githubDB = new GitHubDB(GITHUB_CONFIG);
-            closeModal('githubConfigModal');
-            alert('تم حفظ الإعدادات بنجاح!');
+            document.getElementById('loading').style.display = 'none';
         }
 
         // تحديد نوع التسجيل
